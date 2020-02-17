@@ -1,9 +1,5 @@
 package com.example.applicationfootjerem.Models;
 
-import android.net.Uri;
-
-import java.net.URL;
-
 public class EquipeClassement {
     private String position;
     private String ecusson;
