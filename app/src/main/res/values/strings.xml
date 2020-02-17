@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Application Foot Jerem</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="classement">Classement</string>
+    <string name="resultats">Résultats</string>
+    <string name="calendrierResultats">Calendrier/Résultats</string>
+</resources>
