@@ -1,6 +1,7 @@
 package com.example.applicationfootjerem.Adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,7 +44,9 @@ public class ClassementAdapter extends ArrayAdapter<EquipeClassement> {
         positionEquipe.setText(currentEquipe.getPosition());
 
         ImageView ecussonEquipe = (ImageView) listItem.findViewById(R.id.ecussonEquipeClassement);
-        Picasso.get().load(currentEquipe.getEcusson()).into(ecussonEquipe);
+        if (!currentEquipe.getEcusson().isEmpty()){
+            Picasso.get().load(currentEquipe.getEcusson()).into(ecussonEquipe);
+        }
 
         TextView nomEquipe = (TextView) listItem.findViewById(R.id.nomEquipeClassement);
         nomEquipe.setText(currentEquipe.getNom());

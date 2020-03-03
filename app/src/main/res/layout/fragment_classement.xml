@@ -7,7 +7,7 @@
     tools:context=".Controllers.Activities.MainActivity">
 
     <Spinner
-        android:id="@+id/spinnerChampionnatsClassement"
+        android:id="@+id/spinnerClassement"
         android:layout_width="match_parent"
         android:layout_height="24dp"
         android:layout_marginTop="16dp"
@@ -28,7 +28,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinnerChampionnatsClassement" />
+        app:layout_constraintTop_toBottomOf="@+id/spinnerClassement" />
 
     <ListView
         android:id="@+id/listViewClassement"

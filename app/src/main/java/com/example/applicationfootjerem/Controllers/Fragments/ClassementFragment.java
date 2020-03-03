@@ -9,8 +9,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -43,6 +45,7 @@ public class ClassementFragment extends Fragment {
     private ListView listeViewClassement;
     private RequestQueue mRequestQueue;
     private JsonObjectRequest jsonObjectRequest;
+    private Spinner spinnerClassement;
     private String urlBase = "http://api.football-data.org/v2";
 
 
@@ -63,6 +66,9 @@ public class ClassementFragment extends Fragment {
 
         boutonClassement = (Button) result.findViewById(R.id.boutonClassement);
         listeViewClassement = (ListView) result.findViewById(R.id.listViewClassement);
+        spinnerClassement = (Spinner) result.findViewById(R.id.spinnerClassement);
+
+        remplissageSpinnerClassement();
 
         boutonClassement.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,12 +80,58 @@ public class ClassementFragment extends Fragment {
         return result;
     }
 
-    private void appelAPIClassement() {
+    public void remplissageSpinnerClassement() {
         //RequestQueue initialized
         mRequestQueue = Volley.newRequestQueue(getContext());
 
         //String Request initialized
-        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, urlBase + "/competitions/FL1/standings", null, new Response.Listener<JSONObject>() {
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, urlBase + "/competitions/", null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    JSONArray competitions = response.getJSONArray("competitions");
+                    ArrayList<String> listeCompetitions = new ArrayList<>();
+
+                    for (int nbCompet = 0; nbCompet < competitions.length(); nbCompet++) {
+                        JSONObject competition = competitions.getJSONObject(nbCompet);
+                        if (competition.getString("plan").equals("TIER_ONE")){
+                            listeCompetitions.add(competition.getString("name") + " (" +  competition.getJSONObject("area").getString("name") + ") - " + competition.getString("code"));
+                        }
+                    }
+                    ArrayAdapter<String> adapterCompetitions = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, listeCompetitions);
+                    spinnerClassement.setAdapter(adapterCompetitions);
+
+                } catch (JSONException e) {
+                    Toast.makeText(getContext(), "Erreur : " + e.toString(), Toast.LENGTH_LONG).show();
+                    Log.e("MYAPP", "unexpected JSON exception", e);
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getContext(), "Erreur : " + error.toString(), Toast.LENGTH_LONG).show();
+                Log.i(TAG, "Error :" + error.toString());
+
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("X-Auth-Token", "df3bab244ac64d57971819531df71b8a");
+                return params;
+            }
+        };
+        mRequestQueue.add(jsonObjectRequest);
+    }
+
+    private void appelAPIClassement() {
+        //RequestQueue initialized
+        mRequestQueue = Volley.newRequestQueue(getContext());
+
+        String codeCompet = spinnerClassement.getSelectedItem().toString().split("-")[1].trim();
+
+        //String Request initialized
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, urlBase + "/competitions/" + codeCompet + "/standings", null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {

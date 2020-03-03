@@ -95,13 +95,11 @@ public class CalendrierFragment extends Fragment{
                 try {
                     JSONArray competitions = response.getJSONArray("competitions");
                     ArrayList<String> listeCompetitions = new ArrayList<>();
-                    int nbChampionnatsAutorises = 0;
 
                     for (int nbCompet = 0; nbCompet < competitions.length(); nbCompet++) {
                         JSONObject competition = competitions.getJSONObject(nbCompet);
                         if (competition.getString("plan").equals("TIER_ONE")){
                             listeCompetitions.add(competition.getString("name") + " (" +  competition.getJSONObject("area").getString("name") + ") - " + competition.getString("code"));
-                            nbChampionnatsAutorises++;
                         }
                     }
                     ArrayAdapter<String> adapterCompetitions = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, listeCompetitions);
