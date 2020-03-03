@@ -5,4 +5,7 @@
     <string name="classement">Classement</string>
     <string name="resultats">Résultats</string>
     <string name="calendrierResultats">Calendrier/Résultats</string>
+    <string name="position">Position</string>
+    <string name="equipe">Équipe</string>
+    <string name="points">Points</string>
 </resources>
