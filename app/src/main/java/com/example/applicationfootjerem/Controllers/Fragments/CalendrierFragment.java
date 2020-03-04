@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -21,8 +22,10 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.applicationfootjerem.Adapters.CompetitionAdapter;
 import com.example.applicationfootjerem.Adapters.MatchAdapter;
 import com.example.applicationfootjerem.Controllers.Activities.MainActivity;
+import com.example.applicationfootjerem.Models.Competition;
 import com.example.applicationfootjerem.Models.Match;
 import com.example.applicationfootjerem.R;
 
@@ -34,6 +37,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -98,16 +102,33 @@ public class CalendrierFragment extends Fragment{
             public void onResponse(JSONObject response) {
                 try {
                     JSONArray competitions = response.getJSONArray("competitions");
-                    ArrayList<String> listeCompetitions = new ArrayList<>();
+                    ArrayList<Competition> listeCompetitions = new ArrayList<>();
 
                     for (int nbCompet = 0; nbCompet < competitions.length(); nbCompet++) {
-                        JSONObject competition = competitions.getJSONObject(nbCompet);
-                        if (competition.getString("plan").equals("TIER_ONE")){
-                            listeCompetitions.add(competition.getString("name") + " (" +  competition.getJSONObject("area").getString("name") + ") - " + competition.getString("code"));
+                        JSONObject competitionJson = competitions.getJSONObject(nbCompet);
+                        if (competitionJson.getString("plan").equals("TIER_ONE")){
+                            Competition competition = new Competition(
+                                    competitionJson.getString("name"),
+                                    competitionJson.getJSONObject("area").getString("name"),
+                                    competitionJson.getString("code"),
+                                    competitionJson.getJSONObject("currentSeason").getInt("currentMatchday")
+                            );
+                            listeCompetitions.add(competition);
                         }
                     }
-                    ArrayAdapter<String> adapterCompetitions = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, listeCompetitions);
-                    spinnerChampionnats.setAdapter(adapterCompetitions);
+                    Collections.sort(listeCompetitions);
+                    CompetitionAdapter adapter = new CompetitionAdapter(getContext(), R.layout.competition_spinner_item, listeCompetitions);
+                    spinnerChampionnats.setAdapter(adapter);
+                    spinnerChampionnats.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+                        @Override
+                        public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
+                            Competition competition = adapter.getItem(position);
+                            spinnerJournees.setSelection(competition.getJourneeActuelle() - 1);
+                        }
+                        @Override
+                        public void onNothingSelected(AdapterView<?> adapter) {  }
+                    });
 
                 } catch (JSONException e) {
                     Toast.makeText(getContext(), "Erreur : " + e.toString(), Toast.LENGTH_LONG).show();
@@ -136,10 +157,8 @@ public class CalendrierFragment extends Fragment{
         //RequestQueue initialized
         mRequestQueue = Volley.newRequestQueue(getContext());
 
-        String codeCompet = spinnerChampionnats.getSelectedItem().toString().split("-")[1].trim();
-
         //String Request initialized
-        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, urlBase + "/competitions/" + codeCompet + "/matches?matchday=" + spinnerJournees.getSelectedItem().toString(), null, new Response.Listener<JSONObject>() {
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, urlBase + "/competitions/" + ((Competition) spinnerChampionnats.getSelectedItem()).getCode() + "/matches?matchday=" + spinnerJournees.getSelectedItem().toString(), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
