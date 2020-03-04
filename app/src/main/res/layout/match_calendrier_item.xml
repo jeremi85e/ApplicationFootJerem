@@ -1,95 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.gridlayout.widget.GridLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:columnCount="8"
-    app:rowCount="1"
-    android:layout_gravity="center"
-    app:orientation="horizontal">
-
-    <ImageView
-        android:id="@+id/ecussonEquipeDom"
-        android:layout_width="5dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    android:orientation="horizontal"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <TextView
         android:id="@+id/nomEquipeDom"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:textSize="20sp"
+        android:layout_weight="8"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:textSize="16sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/ecussonEquipeDom"
-        app:layout_constraintStart_toEndOf="@+id/ecussonEquipeDom"
-        app:layout_constraintTop_toTopOf="@+id/ecussonEquipeDom"
-        app:layout_gravity="center" />
+        android:gravity="center" />
 
     <TextView
         android:id="@+id/scoreEquipeDom"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="@+id/ecussonEquipeDom"
-        app:layout_constraintStart_toEndOf="@+id/nomEquipeDom"
-        app:layout_constraintTop_toTopOf="@+id/ecussonEquipeDom"
-        app:layout_gravity="center" />
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:textSize="16sp"
+        android:gravity="center" />
 
     <TextView
         android:id="@+id/textViewHoraireMatch"
-        android:layout_width="wrap_content"
+        android:layout_weight="1"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text=" - "
         android:textStyle="bold"
-        app:layout_gravity="center" />
+        android:gravity="center" />
 
     <TextView
         android:id="@+id/scoreEquipeExt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="@+id/ecussonEquipeExt"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/nomEquipeExt"
-        app:layout_constraintTop_toTopOf="@+id/ecussonEquipeExt"
-        app:layout_gravity="center" />
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:textSize="16sp"
+        android:gravity="center" />
 
     <TextView
         android:id="@+id/nomEquipeExt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:textSize="20sp"
+        android:layout_weight="8"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:textSize="16sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/ecussonEquipeExt"
-        app:layout_constraintEnd_toStartOf="@+id/ecussonEquipeExt"
-        app:layout_constraintTop_toTopOf="@+id/ecussonEquipeExt"
-        app:layout_gravity="center" />
-
-    <ImageView
-        android:id="@+id/ecussonEquipeExt"
-        android:layout_width="5dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-</androidx.gridlayout.widget.GridLayout>
+        android:gravity="center" />
+</LinearLayout>

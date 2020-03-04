@@ -4,21 +4,17 @@ import java.util.Date;
 
 public class Match {
     private Date dateMatch;
-    private int ecussonDom;
     private String nomDom;
     private String scoreDom;
     private String scoreExt;
     private String nomExt;
-    private int ecussonExt;
 
-    public Match(Date dateMatch, int ecussonDom, String nomDom, String scoreDom, String scoreExt, String nomExt, int ecussonExt) {
+    public Match(Date dateMatch, String nomDom, String scoreDom, String scoreExt, String nomExt) {
         this.dateMatch = dateMatch;
-        this.ecussonDom = ecussonDom;
         this.nomDom = nomDom;
         this.scoreDom = scoreDom;
         this.scoreExt = scoreExt;
         this.nomExt = nomExt;
-        this.ecussonExt = ecussonExt;
     }
 
     public Date getDateMatch() {
@@ -27,14 +23,6 @@ public class Match {
 
     public void setDateMatch(Date dateMatch) {
         this.dateMatch = dateMatch;
-    }
-
-    public int getEcussonDom() {
-        return ecussonDom;
-    }
-
-    public void setEcussonDom(int ecussonDom) {
-        this.ecussonDom = ecussonDom;
     }
 
     public String getNomDom() {
@@ -67,13 +55,5 @@ public class Match {
 
     public void setNomExt(String nomExt) {
         this.nomExt = nomExt;
-    }
-
-    public int getEcussonExt() {
-        return ecussonExt;
-    }
-
-    public void setEcussonExt(int ecussonExt) {
-        this.ecussonExt = ecussonExt;
     }
 }

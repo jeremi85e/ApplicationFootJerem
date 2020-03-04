@@ -151,12 +151,10 @@ public class CalendrierFragment extends Fragment{
                         listeMatchs.add(
                                 new Match(
                                         m_ISO8601Local.parse(match.getString("utcDate")),
-                                        0,
                                         match.getJSONObject("homeTeam").getString("name"),
                                         !match.getJSONObject("score").getJSONObject("fullTime").isNull("homeTeam") ? match.getJSONObject("score").getJSONObject("fullTime").getString("homeTeam") : null,
                                         !match.getJSONObject("score").getJSONObject("fullTime").isNull("awayTeam") ? match.getJSONObject("score").getJSONObject("fullTime").getString("awayTeam") : null,
-                                        match.getJSONObject("awayTeam").getString("name"),
-                                        0
+                                        match.getJSONObject("awayTeam").getString("name")
                                 )
                         );
                     }
