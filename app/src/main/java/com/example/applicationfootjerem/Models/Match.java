@@ -1,6 +1,9 @@
 package com.example.applicationfootjerem.Models;
 
+import java.util.Date;
+
 public class Match {
+    private Date dateMatch;
     private int ecussonDom;
     private String nomDom;
     private String scoreDom;
@@ -8,13 +11,22 @@ public class Match {
     private String nomExt;
     private int ecussonExt;
 
-    public Match(int ecussonDom, String nomDom, String scoreDom, String scoreExt, String nomExt, int ecussonExt) {
+    public Match(Date dateMatch, int ecussonDom, String nomDom, String scoreDom, String scoreExt, String nomExt, int ecussonExt) {
+        this.dateMatch = dateMatch;
         this.ecussonDom = ecussonDom;
         this.nomDom = nomDom;
         this.scoreDom = scoreDom;
         this.scoreExt = scoreExt;
         this.nomExt = nomExt;
         this.ecussonExt = ecussonExt;
+    }
+
+    public Date getDateMatch() {
+        return dateMatch;
+    }
+
+    public void setDateMatch(Date dateMatch) {
+        this.dateMatch = dateMatch;
     }
 
     public int getEcussonDom() {

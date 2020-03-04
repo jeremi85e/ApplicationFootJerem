@@ -30,6 +30,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -44,6 +47,7 @@ public class CalendrierFragment extends Fragment{
     private ListView listViewResultats;
     private Spinner spinnerJournees;
     private Spinner spinnerChampionnats;
+    DateFormat m_ISO8601Local = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
 
     private RequestQueue mRequestQueue;
     private JsonObjectRequest jsonObjectRequest;
@@ -146,13 +150,12 @@ public class CalendrierFragment extends Fragment{
                         JSONObject match = matches.getJSONObject(idMatch);
                         listeMatchs.add(
                                 new Match(
-                                        //getEcusson(match.getJSONObject("homeTeam").getString("name")),
+                                        m_ISO8601Local.parse(match.getString("utcDate")),
                                         0,
                                         match.getJSONObject("homeTeam").getString("name"),
-                                        match.getJSONObject("score").getJSONObject("fullTime").getString("homeTeam"),
-                                        match.getJSONObject("score").getJSONObject("fullTime").getString("awayTeam"),
+                                        !match.getJSONObject("score").getJSONObject("fullTime").isNull("homeTeam") ? match.getJSONObject("score").getJSONObject("fullTime").getString("homeTeam") : null,
+                                        !match.getJSONObject("score").getJSONObject("fullTime").isNull("awayTeam") ? match.getJSONObject("score").getJSONObject("fullTime").getString("awayTeam") : null,
                                         match.getJSONObject("awayTeam").getString("name"),
-                                        //getEcusson(match.getJSONObject("awayTeam").getString("name"))
                                         0
                                 )
                         );
@@ -160,6 +163,9 @@ public class CalendrierFragment extends Fragment{
                     MatchAdapter matchAdapter = new MatchAdapter(getContext(), listeMatchs);
                     listViewResultats.setAdapter(matchAdapter);
 
+                } catch (ParseException e) {
+                    Toast.makeText(getContext(), "Erreur : " + e.toString(), Toast.LENGTH_LONG).show();
+                    Log.e("MYAPP", "unexpected parse exception", e);
                 } catch (JSONException e) {
                     Toast.makeText(getContext(), "Erreur : " + e.toString(), Toast.LENGTH_LONG).show();
                     Log.e("MYAPP", "unexpected JSON exception", e);
