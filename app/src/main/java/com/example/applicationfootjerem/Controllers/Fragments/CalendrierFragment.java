@@ -117,7 +117,7 @@ public class CalendrierFragment extends Fragment{
                         }
                     }
                     Collections.sort(listeCompetitions);
-                    CompetitionAdapter adapter = new CompetitionAdapter(getContext(), R.layout.competition_spinner_item, listeCompetitions);
+                    CompetitionAdapter adapter = new CompetitionAdapter(getContext(), listeCompetitions);
                     spinnerChampionnats.setAdapter(adapter);
                     spinnerChampionnats.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
