@@ -111,7 +111,7 @@ public class CalendrierFragment extends Fragment{
                                     competitionJson.getString("name"),
                                     competitionJson.getJSONObject("area").getString("name"),
                                     competitionJson.getString("code"),
-                                    competitionJson.getJSONObject("currentSeason").getInt("currentMatchday")
+                                    !competitionJson.getJSONObject("currentSeason").isNull("currentMatchday") ? competitionJson.getJSONObject("currentSeason").getInt("currentMatchday") : 1
                             );
                             listeCompetitions.add(competition);
                         }
