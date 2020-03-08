@@ -53,6 +53,7 @@ public class MatchAdapter extends ArrayAdapter<Match> {
         if (match.getScoreDom() != null){
             scoreEquipeDom.setText(match.getScoreDom());
             scoreEquipeExt.setText(match.getScoreExt());
+            textViewHoraireMatch.setText("-");
         } else {
             textViewHoraireMatch.setText(this.ddMMyyyyHHmm.format(match.getDateMatch()));
         }
