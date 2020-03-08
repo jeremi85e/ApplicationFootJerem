@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 
 import com.example.applicationfootjerem.Models.Match;
 import com.example.applicationfootjerem.R;
@@ -45,15 +46,18 @@ public class MatchAdapter extends ArrayAdapter<Match> {
         TextView scoreEquipeExt = (TextView) convertView.findViewById(R.id.scoreEquipeExt);
         TextView nomEquipeExt = (TextView) convertView.findViewById(R.id.nomEquipeExt);
 
-        //getItem(position) va récupérer l'item [position] de la List<Match> listeMatchs
         Match match = matchsListe.get(position);
 
-        //il ne reste plus qu'à remplir notre vue
         nomEquipeDom.setText(match.getNomDom());
         if (match.getScoreDom() != null){
             scoreEquipeDom.setText(match.getScoreDom());
             scoreEquipeExt.setText(match.getScoreExt());
             textViewHoraireMatch.setText("-");
+            if (match.getStatut() == "IN_PLAY"){ //A REVERIFIER SI CA MARCHE !!! 
+                scoreEquipeDom.setTextColor(ContextCompat.getColor(getContext(), R.color.colorAccent));
+                scoreEquipeExt.setTextColor(ContextCompat.getColor(getContext(), R.color.colorAccent));
+                textViewHoraireMatch.setTextColor(ContextCompat.getColor(getContext(), R.color.colorAccent));
+            }
         } else {
             textViewHoraireMatch.setText(this.ddMMyyyyHHmm.format(match.getDateMatch()));
         }

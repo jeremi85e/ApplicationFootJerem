@@ -9,7 +9,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -22,7 +21,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.applicationfootjerem.Adapters.CompetitionAdapter;
 import com.example.applicationfootjerem.Adapters.MatchAdapter;
 import com.example.applicationfootjerem.Controllers.Activities.MainActivity;
 import com.example.applicationfootjerem.Models.Competition;
@@ -37,7 +35,6 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -62,6 +59,7 @@ public class CalendrierFragment extends Fragment{
 
         Bundle bundle = new Bundle();
         bundle.putString("codeCompetition", competition.getCode());
+        bundle.putInt("currentMatchDay", competition.getJourneeActuelle());
         calendrierFragment.setArguments(bundle);
 
         return calendrierFragment;
@@ -82,6 +80,7 @@ public class CalendrierFragment extends Fragment{
         }
         ArrayAdapter<Integer> adapterJournees = new ArrayAdapter<Integer>(getContext(), android.R.layout.simple_spinner_dropdown_item, items);
         spinnerJournees.setAdapter(adapterJournees);
+        spinnerJournees.setSelection(getArguments().getInt("currentMatchDay") - 1);
 
         boutonCalendrier.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,6 +109,7 @@ public class CalendrierFragment extends Fragment{
                         listeMatchs.add(
                                 new Match(
                                         m_ISO8601Local.parse(match.getString("utcDate")),
+                                        match.getString("status"),
                                         match.getJSONObject("homeTeam").getString("name"),
                                         !match.getJSONObject("score").getJSONObject("fullTime").isNull("homeTeam") ? match.getJSONObject("score").getJSONObject("fullTime").getString("homeTeam") : null,
                                         !match.getJSONObject("score").getJSONObject("fullTime").isNull("awayTeam") ? match.getJSONObject("score").getJSONObject("fullTime").getString("awayTeam") : null,

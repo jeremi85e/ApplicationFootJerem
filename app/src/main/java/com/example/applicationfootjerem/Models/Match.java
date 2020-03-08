@@ -4,17 +4,27 @@ import java.util.Date;
 
 public class Match {
     private Date dateMatch;
+    private String statut;
     private String nomDom;
     private String scoreDom;
     private String scoreExt;
     private String nomExt;
 
-    public Match(Date dateMatch, String nomDom, String scoreDom, String scoreExt, String nomExt) {
+    public Match(Date dateMatch, String statut, String nomDom, String scoreDom, String scoreExt, String nomExt) {
         this.dateMatch = dateMatch;
+        this.statut = statut;
         this.nomDom = nomDom;
         this.scoreDom = scoreDom;
         this.scoreExt = scoreExt;
         this.nomExt = nomExt;
+    }
+
+    public String getStatut() {
+        return statut;
+    }
+
+    public void setStatut(String statut) {
+        this.statut = statut;
     }
 
     public Date getDateMatch() {
