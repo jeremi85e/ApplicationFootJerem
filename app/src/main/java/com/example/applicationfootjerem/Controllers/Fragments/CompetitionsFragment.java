@@ -92,7 +92,7 @@ public class CompetitionsFragment extends Fragment {
                             trans.replace(R.id.root_layout_fragment, CalendrierFragment.newInstance(competition));
 
                             /*
-                             * Les lignes suivantes permettent de 
+                             * Les lignes suivantes permettent de
                              */
                             trans.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
                             trans.addToBackStack(null);
