@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import com.example.applicationfootjerem.Controllers.Fragments.CalendrierFragment;
 import com.example.applicationfootjerem.Controllers.Fragments.ClassementFragment;
 import com.example.applicationfootjerem.Controllers.Fragments.CompetitionsFragment;
+import com.example.applicationfootjerem.Controllers.Fragments.RootFragment;
 
 public class OngletAdapter extends FragmentPagerAdapter {
 
@@ -23,7 +24,7 @@ public class OngletAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position){
             case 0 :
-                return CompetitionsFragment.newInstance();
+                return RootFragment.newInstance();
             case 1 :
                 return  ClassementFragment.newInstance();
             default:

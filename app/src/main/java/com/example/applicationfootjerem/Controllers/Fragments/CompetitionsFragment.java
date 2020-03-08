@@ -13,6 +13,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -78,6 +79,27 @@ public class CompetitionsFragment extends Fragment {
                     Collections.sort(listeCompetitions);
                     CompetitionAdapter competitionAdapter = new CompetitionAdapter(getContext(), listeCompetitions);
                     listViewCompetitions.setAdapter(competitionAdapter);
+                    listViewCompetitions.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
+                            Competition competition = (Competition) listViewCompetitions.getItemAtPosition(position);
+
+                            FragmentTransaction trans = getFragmentManager().beginTransaction();
+                            /*
+                             * IMPORTANT: We use the "root frame" defined in
+                             * "root_fragment.xml" as the reference to replace fragment
+                             */
+                            trans.replace(R.id.root_layout_fragment, CalendrierFragment.newInstance(competition));
+
+                            /*
+                             * Les lignes suivantes permettent de 
+                             */
+                            trans.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+                            trans.addToBackStack(null);
+
+                            trans.commit();
+                        }
+                    });
 
                 } catch (JSONException e) {
                     Toast.makeText(getContext(), "Erreur : " + e.toString(), Toast.LENGTH_LONG).show();

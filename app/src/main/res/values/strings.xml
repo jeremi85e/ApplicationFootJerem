@@ -8,4 +8,7 @@
     <string name="position">Position</string>
     <string name="equipe">Équipe</string>
     <string name="points">Points</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

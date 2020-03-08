@@ -57,23 +57,24 @@ public class CalendrierFragment extends Fragment{
     private JsonObjectRequest jsonObjectRequest;
     private String urlBase = "http://api.football-data.org/v2";
 
-    // 2 - Method that will create a new instance of CalendrierFragment.
-    public static CalendrierFragment newInstance() {
-        return(new CalendrierFragment());
+    public static CalendrierFragment newInstance(Competition competition) {
+        CalendrierFragment calendrierFragment = new CalendrierFragment();
+
+        Bundle bundle = new Bundle();
+        bundle.putString("codeCompetition", competition.getCode());
+        calendrierFragment.setArguments(bundle);
+
+        return calendrierFragment;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        // 3 - Get layout of CalendrierFragment
         View result = inflater.inflate(R.layout.fragment_calendrier, container, false);
 
         boutonCalendrier = (Button) result.findViewById(R.id.boutonCalendrier);
         listViewResultats = (ListView) result.findViewById(R.id.calendrierListeView);
         spinnerJournees = (Spinner) result.findViewById(R.id.spinnerJournees);
-        spinnerChampionnats = (Spinner) result.findViewById(R.id.spinnerChampionnats);
-
-        remplissageSpinnerChampionnats();
 
         Integer[] items = new Integer[38];
         for (int i = 0; i < 38; i++) {
@@ -85,80 +86,19 @@ public class CalendrierFragment extends Fragment{
         boutonCalendrier.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
-                appelAPICalendrier();
+                getCalendrier();
             }
         });
 
         return result;
     }
 
-    public void remplissageSpinnerChampionnats() {
+    private void getCalendrier() {
         //RequestQueue initialized
         mRequestQueue = Volley.newRequestQueue(getContext());
 
         //String Request initialized
-        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, urlBase + "/competitions/", null, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                try {
-                    JSONArray competitions = response.getJSONArray("competitions");
-                    ArrayList<Competition> listeCompetitions = new ArrayList<>();
-
-                    for (int nbCompet = 0; nbCompet < competitions.length(); nbCompet++) {
-                        JSONObject competitionJson = competitions.getJSONObject(nbCompet);
-                        if (competitionJson.getString("plan").equals("TIER_ONE")){
-                            Competition competition = new Competition(
-                                    competitionJson.getString("name"),
-                                    competitionJson.getJSONObject("area").getString("name"),
-                                    competitionJson.getString("code"),
-                                    !competitionJson.getJSONObject("currentSeason").isNull("currentMatchday") ? competitionJson.getJSONObject("currentSeason").getInt("currentMatchday") : 1
-                            );
-                            listeCompetitions.add(competition);
-                        }
-                    }
-                    Collections.sort(listeCompetitions);
-                    CompetitionAdapter adapter = new CompetitionAdapter(getContext(), listeCompetitions);
-                    spinnerChampionnats.setAdapter(adapter);
-                    spinnerChampionnats.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
-                        @Override
-                        public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
-                            Competition competition = adapter.getItem(position);
-                            spinnerJournees.setSelection(competition.getJourneeActuelle() - 1);
-                        }
-                        @Override
-                        public void onNothingSelected(AdapterView<?> adapter) {  }
-                    });
-
-                } catch (JSONException e) {
-                    Toast.makeText(getContext(), "Erreur : " + e.toString(), Toast.LENGTH_LONG).show();
-                    Log.e("MYAPP", "unexpected JSON exception", e);
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getContext(), "Erreur : " + error.toString(), Toast.LENGTH_LONG).show();
-                Log.i(TAG, "Error :" + error.toString());
-
-            }
-        }) {
-            @Override
-            public Map<String, String> getHeaders() {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("X-Auth-Token", "df3bab244ac64d57971819531df71b8a");
-                return params;
-            }
-        };
-        mRequestQueue.add(jsonObjectRequest);
-    }
-
-    private void appelAPICalendrier() {
-        //RequestQueue initialized
-        mRequestQueue = Volley.newRequestQueue(getContext());
-
-        //String Request initialized
-        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, urlBase + "/competitions/" + ((Competition) spinnerChampionnats.getSelectedItem()).getCode() + "/matches?matchday=" + spinnerJournees.getSelectedItem().toString(), null, new Response.Listener<JSONObject>() {
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, urlBase + "/competitions/" + getArguments().getString("codeCompetition") + "/matches?matchday=" + spinnerJournees.getSelectedItem().toString(), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
