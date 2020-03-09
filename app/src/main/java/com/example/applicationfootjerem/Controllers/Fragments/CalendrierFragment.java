@@ -170,13 +170,14 @@ public class CalendrierFragment extends Fragment{
                         String message = object.get("message").toString();
                         Toast.makeText(getContext(), "Erreur : " + message, Toast.LENGTH_LONG).show();
                         Log.i(TAG, "Error :" + message);
+                    } else {
+                        Toast.makeText(getContext(), "Erreur Volley inconnue", Toast.LENGTH_LONG).show();
+                        Log.i(TAG, "Error Volley inconnue");
                     }
-                }
-                catch (JSONException e){
+                } catch (JSONException e){
                     Toast.makeText(getContext(), "Erreur : Could not parse response", Toast.LENGTH_LONG).show();
                     Log.i(TAG, "Erreur : Could not parse response");
-                }
-                catch (NullPointerException e){
+                } catch (NullPointerException e){
                     Toast.makeText(getContext(), "Erreur : Avez-vous activé Internet ?", Toast.LENGTH_LONG).show();
                     Log.i(TAG, "Erreur : Avez-vous activé Internet ?");
                 }
