@@ -37,7 +37,7 @@ public class MatchAdapter extends ArrayAdapter<Match> {
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
 
         if(convertView == null){
-            convertView = LayoutInflater.from(mContext).inflate(R.layout.match_calendrier_item,parent, false);
+            convertView = LayoutInflater.from(mContext).inflate(R.layout.item_match_calendrier,parent, false);
         }
 
         TextView nomEquipeDom = (TextView) convertView.findViewById(R.id.nomEquipeDom);

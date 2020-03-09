@@ -1,7 +1,6 @@
 package com.example.applicationfootjerem.Adapters;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,7 +35,7 @@ public class ClassementAdapter extends ArrayAdapter<EquipeClassement> {
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         View listItem = convertView;
         if(listItem == null)
-            listItem = LayoutInflater.from(mContext).inflate(R.layout.equipe_classement_item,parent,false);
+            listItem = LayoutInflater.from(mContext).inflate(R.layout.item_equipe_classement,parent,false);
 
         EquipeClassement currentEquipe = equipeClassementListe.get(position);
 

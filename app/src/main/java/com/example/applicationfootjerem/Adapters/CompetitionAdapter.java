@@ -31,7 +31,7 @@ public class CompetitionAdapter extends ArrayAdapter<Competition> {
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         if(convertView == null){
-            convertView = LayoutInflater.from(mContext).inflate(R.layout.competition_listview_item,parent, false);
+            convertView = LayoutInflater.from(mContext).inflate(R.layout.item_competition_listview,parent, false);
         }
         TextView textViewCompetitionSpinnerItem = (TextView) convertView.findViewById(R.id.textViewCompetitionListViewItem);
         textViewCompetitionSpinnerItem.setText(competitionsListe.get(position).getPays() + " - " + competitionsListe.get(position).getNom());
