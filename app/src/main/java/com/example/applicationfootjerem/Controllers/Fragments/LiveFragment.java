@@ -74,16 +74,14 @@ public class LiveFragment extends Fragment{
 
                     for (int idMatch = 0; idMatch < matches.length(); idMatch++) {
                         JSONObject match = matches.getJSONObject(idMatch);
-                        listeMatchs.add(
-                                new Match(
-                                        m_ISO8601Local.parse(match.getString("utcDate")),
-                                        match.getString("status"),
-                                        match.getJSONObject("homeTeam").getString("name"),
-                                        !match.getJSONObject("score").getJSONObject("fullTime").isNull("homeTeam") ? match.getJSONObject("score").getJSONObject("fullTime").getString("homeTeam") : null,
-                                        !match.getJSONObject("score").getJSONObject("fullTime").isNull("awayTeam") ? match.getJSONObject("score").getJSONObject("fullTime").getString("awayTeam") : null,
-                                        match.getJSONObject("awayTeam").getString("name")
-                                )
-                        );
+                        listeMatchs.add(new Match(
+                            m_ISO8601Local.parse(match.getString("utcDate")),
+                            match.getString("status"),
+                            match.getJSONObject("homeTeam").getString("name"),
+                            !match.getJSONObject("score").getJSONObject("fullTime").isNull("homeTeam") ? match.getJSONObject("score").getJSONObject("fullTime").getString("homeTeam") : null,
+                            !match.getJSONObject("score").getJSONObject("fullTime").isNull("awayTeam") ? match.getJSONObject("score").getJSONObject("fullTime").getString("awayTeam") : null,
+                            match.getJSONObject("awayTeam").getString("name")
+                        ));
                     }
                     LiveAdapter liveAdapter = new LiveAdapter(getContext(), listeMatchs);
                     listViewLive.setAdapter(liveAdapter);
