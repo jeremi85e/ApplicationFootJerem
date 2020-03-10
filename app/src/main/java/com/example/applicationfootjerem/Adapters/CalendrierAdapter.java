@@ -50,8 +50,10 @@ public class CalendrierAdapter extends ArrayAdapter<Match> {
         nomEquipeDom.setText(match.getNomDom());
         if (match.getScoreDom() != null){
             scoreMatch.setText(match.getScoreDom()+ " - " + match.getScoreExt());
-            if (match.getStatut() == "IN_PLAY"){ //A REVERIFIER SI CA MARCHE !!! 
+            if (match.getStatut().equals("IN_PLAY")){
                 scoreMatch.setTextColor(ContextCompat.getColor(getContext(), R.color.colorAccent));
+            } else {
+                scoreMatch.setTextColor(ContextCompat.getColor(getContext(), R.color.colorNoir));
             }
         } else {
             scoreMatch.setTextSize(12);
