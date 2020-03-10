@@ -19,7 +19,7 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 
 
-public class MatchAdapter extends ArrayAdapter<Match> {
+public class CalendrierAdapter extends ArrayAdapter<Match> {
 
     private Context mContext;
     private List<Match> matchsListe;
@@ -27,7 +27,7 @@ public class MatchAdapter extends ArrayAdapter<Match> {
     private DateFormat dateFormatHHmm = new SimpleDateFormat("HH:mm");
 
     //tweets est la liste des models à afficher
-    public MatchAdapter(Context context, List<Match> listeMatchs) {
+    public CalendrierAdapter(Context context, List<Match> listeMatchs) {
         super(context, 0, listeMatchs);
         mContext = context;
         matchsListe = listeMatchs;

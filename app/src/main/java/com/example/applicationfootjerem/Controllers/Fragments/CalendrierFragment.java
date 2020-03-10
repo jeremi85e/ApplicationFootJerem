@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -23,8 +22,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.applicationfootjerem.Adapters.MatchAdapter;
-import com.example.applicationfootjerem.Controllers.Activities.MainActivity;
+import com.example.applicationfootjerem.Adapters.CalendrierAdapter;
 import com.example.applicationfootjerem.Models.Competition;
 import com.example.applicationfootjerem.Models.Match;
 import com.example.applicationfootjerem.R;
@@ -33,7 +31,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.awt.font.TextAttribute;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -149,8 +146,8 @@ public class CalendrierFragment extends Fragment{
                                 )
                         );
                     }
-                    MatchAdapter matchAdapter = new MatchAdapter(getContext(), listeMatchs);
-                    listViewResultats.setAdapter(matchAdapter);
+                    CalendrierAdapter calendrierAdapter = new CalendrierAdapter(getContext(), listeMatchs);
+                    listViewResultats.setAdapter(calendrierAdapter);
 
                 } catch (ParseException e) {
                     Toast.makeText(getContext(), "Erreur : " + e.toString(), Toast.LENGTH_LONG).show();

@@ -6,10 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,8 +18,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.applicationfootjerem.Adapters.MatchAdapter;
-import com.example.applicationfootjerem.Models.Competition;
+import com.example.applicationfootjerem.Adapters.CalendrierAdapter;
+import com.example.applicationfootjerem.Adapters.LiveAdapter;
 import com.example.applicationfootjerem.Models.Match;
 import com.example.applicationfootjerem.R;
 
@@ -43,7 +40,8 @@ import java.util.Map;
 public class LiveFragment extends Fragment{
 
     private static final String TAG = "CalendrierFragment";
-    private TextView textViewLiveScore;
+    private ListView listViewLive;
+    DateFormat m_ISO8601Local = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
 
     private RequestQueue mRequestQueue;
     private JsonObjectRequest jsonObjectRequest;
@@ -58,13 +56,45 @@ public class LiveFragment extends Fragment{
 
         View result = inflater.inflate(R.layout.fragment_live, container, false);
 
-        textViewLiveScore = (TextView) result.findViewById(R.id.textViewLiveScore);
+        listViewLive = (ListView) result.findViewById(R.id.listViewLive);
 
+        getLiveScore();
+
+        return result;
+    }
+
+    public void getLiveScore() {
         mRequestQueue = Volley.newRequestQueue(getContext());
         jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, urlBase + "/matches", null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                textViewLiveScore.setText(response.toString());
+                try {
+                    JSONArray matches = response.getJSONArray("matches");
+                    ArrayList<Match> listeMatchs = new ArrayList<>();
+
+                    for (int idMatch = 0; idMatch < matches.length(); idMatch++) {
+                        JSONObject match = matches.getJSONObject(idMatch);
+                        listeMatchs.add(
+                                new Match(
+                                        m_ISO8601Local.parse(match.getString("utcDate")),
+                                        match.getString("status"),
+                                        match.getJSONObject("homeTeam").getString("name"),
+                                        !match.getJSONObject("score").getJSONObject("fullTime").isNull("homeTeam") ? match.getJSONObject("score").getJSONObject("fullTime").getString("homeTeam") : null,
+                                        !match.getJSONObject("score").getJSONObject("fullTime").isNull("awayTeam") ? match.getJSONObject("score").getJSONObject("fullTime").getString("awayTeam") : null,
+                                        match.getJSONObject("awayTeam").getString("name")
+                                )
+                        );
+                    }
+                    LiveAdapter liveAdapter = new LiveAdapter(getContext(), listeMatchs);
+                    listViewLive.setAdapter(liveAdapter);
+                } catch (ParseException e) {
+                    Toast.makeText(getContext(), "Erreur : " + e.toString(), Toast.LENGTH_LONG).show();
+                    Log.e("MYAPP", "unexpected parse exception", e);
+                }  catch (JSONException e){
+                    Toast.makeText(getContext(), "Erreur : Could not parse response", Toast.LENGTH_LONG).show();
+                    Log.i(TAG, "Erreur : Could not parse response");
+                }
+
             }
         }, new Response.ErrorListener() {
             @Override
@@ -97,7 +127,5 @@ public class LiveFragment extends Fragment{
             }
         };
         mRequestQueue.add(jsonObjectRequest);
-
-        return result;
     }
 }
