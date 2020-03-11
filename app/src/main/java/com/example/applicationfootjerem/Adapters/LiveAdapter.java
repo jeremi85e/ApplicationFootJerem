@@ -50,6 +50,7 @@ public class LiveAdapter extends ArrayAdapter<Match> {
         nomCompetitionLiveItem.setText(match.getPays() + " - " + match.getCompetition());
         nomEquipeDom.setText(match.getNomDom());
         if (match.getScoreDom() != null){
+            scoreMatch.setTextSize(16);
             if (match.getStatut().equals("POSTPONED")){
                 scoreMatch.setText("REP");
             } else {
@@ -63,6 +64,7 @@ public class LiveAdapter extends ArrayAdapter<Match> {
         } else {
             scoreMatch.setTextSize(12);
             scoreMatch.setText(this.dateFormatHHmm.format(match.getDateMatch()));
+            scoreMatch.setTextColor(ContextCompat.getColor(getContext(), R.color.colorNoir));
         }
         nomEquipeExt.setText(match.getNomExt());
 
