@@ -47,10 +47,14 @@ public class LiveAdapter extends ArrayAdapter<Match> {
 
         Match match = matchsListe.get(position);
 
-        nomCompetitionLiveItem.setText(match.getPays() + " - " + match.getCompetition() + position);
+        nomCompetitionLiveItem.setText(match.getPays() + " - " + match.getCompetition());
         nomEquipeDom.setText(match.getNomDom());
         if (match.getScoreDom() != null){
-            scoreMatch.setText(match.getScoreDom()+ " - " + match.getScoreExt());
+            if (match.getStatut().equals("POSTPONED")){
+                scoreMatch.setText("REP");
+            } else {
+                scoreMatch.setText(match.getScoreDom()+ " - " + match.getScoreExt());
+            }
             if (match.getStatut().equals("IN_PLAY")){
                 scoreMatch.setTextColor(ContextCompat.getColor(getContext(), R.color.colorAccent));
             } else {
