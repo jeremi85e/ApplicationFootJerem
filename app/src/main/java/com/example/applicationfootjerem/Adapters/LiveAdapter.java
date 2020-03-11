@@ -55,7 +55,7 @@ public class LiveAdapter extends ArrayAdapter<Match> {
             } else {
                 scoreMatch.setText(match.getScoreDom()+ " - " + match.getScoreExt());
             }
-            if (match.getStatut().equals("IN_PLAY")){
+            if (match.getStatut().equals("IN_PLAY") || match.getStatut().equals("PAUSED")){
                 scoreMatch.setTextColor(ContextCompat.getColor(getContext(), R.color.colorAccent));
             } else {
                 scoreMatch.setTextColor(ContextCompat.getColor(getContext(), R.color.colorNoir));
