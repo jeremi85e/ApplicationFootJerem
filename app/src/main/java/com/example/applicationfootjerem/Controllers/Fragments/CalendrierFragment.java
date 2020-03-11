@@ -46,6 +46,7 @@ public class CalendrierFragment extends Fragment{
     private static final String TAG = "CalendrierFragment";
     private TextView journeePrecedente;
     private TextView journeeSuivante;
+    private ArrayList<String> listeJournees;
     private ListView listViewResultats;
     private Spinner spinnerJournees;
     private int journeeActuelle;
@@ -60,6 +61,7 @@ public class CalendrierFragment extends Fragment{
 
         Bundle bundle = new Bundle();
         bundle.putString("codeCompetition", competition.getCode());
+        bundle.putStringArrayList("listeJournees", competition.getListeJournees());
         bundle.putInt("currentMatchDay", competition.getJourneeActuelle());
         calendrierFragment.setArguments(bundle);
 
@@ -77,10 +79,11 @@ public class CalendrierFragment extends Fragment{
         journeeSuivante = (TextView) result.findViewById(R.id.calendrierJourneeSuivante);
 
         journeeActuelle = getArguments().getInt("currentMatchDay");
+        listeJournees = getArguments().getStringArrayList("listeJournees");
 
-        String[] items = new String[38];
-        for (int i = 0; i < 38; i++) {
-            items[i] = "Journée " + (i+1);
+        String[] items = new String[listeJournees.size()];
+        for (int i = 0; i < listeJournees.size(); i++) {
+            items[i] = getJourneeSpinner(listeJournees.get(i));
         }
         ArrayAdapter<String> adapterJournees = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, items);
         spinnerJournees.setAdapter(adapterJournees);
@@ -92,8 +95,6 @@ public class CalendrierFragment extends Fragment{
         journeePrecedente.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
-                journeeActuelle --;
-                getCalendrier(journeeActuelle);
                 spinnerJournees.setSelection(journeeActuelle - 1);
             }
         });
@@ -101,16 +102,14 @@ public class CalendrierFragment extends Fragment{
         journeeSuivante.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
-                journeeActuelle ++;
-                getCalendrier(journeeActuelle);
-                spinnerJournees.setSelection(journeeActuelle - 1);
+                spinnerJournees.setSelection(journeeActuelle + 1);
             }
         });
 
         spinnerJournees.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
         {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id){
-                journeeActuelle = position + 1;
+                journeeActuelle = position;
                 getCalendrier(journeeActuelle);
             }
             public void onNothingSelected(AdapterView<?> parent){
@@ -125,8 +124,15 @@ public class CalendrierFragment extends Fragment{
         //RequestQueue initialized
         mRequestQueue = Volley.newRequestQueue(getContext());
 
+        String matchUrl = "";
+        if(listeJournees.get(journee).equals("ROUND_OF_16") || listeJournees.get(journee).equals("QUARTER_FINALS") || listeJournees.get(journee).equals("SEMI_FINALS") || listeJournees.get(journee).equals("3RD_PLACE") || listeJournees.get(journee).equals("FINAL")){
+            matchUrl = "stage";
+        } else {
+            matchUrl = "matchday";
+        }
+
         //String Request initialized
-        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, urlBase + "/competitions/" + getArguments().getString("codeCompetition") + "/matches?matchday=" + journee, null, new Response.Listener<JSONObject>() {
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, urlBase + "/competitions/" + getArguments().getString("codeCompetition") + "/matches?" + matchUrl + "=" + listeJournees.get(journee), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
@@ -188,6 +194,23 @@ public class CalendrierFragment extends Fragment{
             }
         };
         mRequestQueue.add(jsonObjectRequest);
+    }
+
+    private String getJourneeSpinner(String code){
+        switch (code){
+            case "ROUND_OF_16" :
+                return "Huitièmes de Finale";
+            case "QUARTER_FINALS" :
+                return "Quarts de Finale";
+            case "SEMI_FINALS" :
+                return "Demie Finale";
+            case "3RD_PLACE" :
+                return "Match pour la 3ème place";
+            case "FINAL" :
+                return "Finale";
+            default:
+                return "Journée " + code;
+        }
     }
 
 }
