@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,6 +42,7 @@ public class LiveFragment extends Fragment{
 
     private static final String TAG = "CalendrierFragment";
     private ListView listViewLive;
+    private TextView textViewPasDeLive;
     DateFormat m_ISO8601Local = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
 
     private RequestQueue mRequestQueue;
@@ -57,6 +59,7 @@ public class LiveFragment extends Fragment{
         View result = inflater.inflate(R.layout.fragment_live, container, false);
 
         listViewLive = (ListView) result.findViewById(R.id.listViewLive);
+        textViewPasDeLive = (TextView) result.findViewById(R.id.textViewPasDeLive);
 
         getLiveScore();
 
@@ -72,21 +75,26 @@ public class LiveFragment extends Fragment{
                     JSONArray matches = response.getJSONArray("matches");
                     ArrayList<Match> listeMatchs = new ArrayList<>();
 
-                    for (int idMatch = 0; idMatch < matches.length(); idMatch++) {
-                        JSONObject match = matches.getJSONObject(idMatch);
-                        listeMatchs.add(new Match(
-                            m_ISO8601Local.parse(match.getString("utcDate")),
-                            match.getString("status"),
-                            match.getJSONObject("competition").getString("name"),
-                            match.getJSONObject("competition").getJSONObject("area").getString("name"),
-                            match.getJSONObject("homeTeam").getString("name"),
-                            !match.getJSONObject("score").getJSONObject("fullTime").isNull("homeTeam") ? match.getJSONObject("score").getJSONObject("fullTime").getString("homeTeam") : null,
-                            !match.getJSONObject("score").getJSONObject("fullTime").isNull("awayTeam") ? match.getJSONObject("score").getJSONObject("fullTime").getString("awayTeam") : null,
-                            match.getJSONObject("awayTeam").getString("name")
-                        ));
+                    if (matches.length() == 0){
+                        textViewPasDeLive.setText("Il n'y a aucun match aujourd'hui...");
+                        textViewPasDeLive.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
+                    } else {
+                        for (int idMatch = 0; idMatch < matches.length(); idMatch++) {
+                            JSONObject match = matches.getJSONObject(idMatch);
+                            listeMatchs.add(new Match(
+                                m_ISO8601Local.parse(match.getString("utcDate")),
+                                match.getString("status"),
+                                match.getJSONObject("competition").getString("name"),
+                                match.getJSONObject("competition").getJSONObject("area").getString("name"),
+                                match.getJSONObject("homeTeam").getString("name"),
+                                !match.getJSONObject("score").getJSONObject("fullTime").isNull("homeTeam") ? match.getJSONObject("score").getJSONObject("fullTime").getString("homeTeam") : null,
+                                !match.getJSONObject("score").getJSONObject("fullTime").isNull("awayTeam") ? match.getJSONObject("score").getJSONObject("fullTime").getString("awayTeam") : null,
+                                match.getJSONObject("awayTeam").getString("name")
+                            ));
+                        }
+                        LiveAdapter liveAdapter = new LiveAdapter(getContext(), listeMatchs);
+                        listViewLive.setAdapter(liveAdapter);
                     }
-                    LiveAdapter liveAdapter = new LiveAdapter(getContext(), listeMatchs);
-                    listViewLive.setAdapter(liveAdapter);
                 } catch (ParseException e) {
                     Toast.makeText(getContext(), "Erreur : " + e.toString(), Toast.LENGTH_LONG).show();
                     Log.e("MYAPP", "unexpected parse exception", e);
