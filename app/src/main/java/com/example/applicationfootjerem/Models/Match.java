@@ -90,6 +90,12 @@ public class Match implements Comparable<Match> {
     @Override
     public int compareTo(Match m) {
         if (this.getPays().compareTo(m.getPays()) == 0) {
+            if (this.getCompetition().compareTo(m.getCompetition()) == 0) {
+                if (this.getDateMatch().compareTo(m.getDateMatch()) == 0) {
+                    return this.getNomDom().compareTo(m.getNomDom());
+                }
+                return this.getDateMatch().compareTo(m.getDateMatch());
+            }
             return this.getCompetition().compareTo(m.getCompetition());
         }
         return this.getPays().compareTo(m.getPays());
