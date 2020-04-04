@@ -1,6 +1,7 @@
 package com.example.applicationfootjerem.Adapters;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,24 +50,27 @@ public class LiveAdapter extends ArrayAdapter<Match> {
 
         nomCompetitionLiveItem.setText(match.getPays() + " - " + match.getCompetition());
         nomEquipeDom.setText(match.getNomDom());
-        if (match.getScoreDom() != null){
-            scoreMatch.setTextSize(16);
-            if (match.getStatut().equals("POSTPONED")){
-                scoreMatch.setText("REP");
-            } else {
+        nomEquipeExt.setText(match.getNomExt());
+        scoreMatch.setTextSize(16);
+
+        if (match.getStatut().equals("POSTPONED")){
+            scoreMatch.setTypeface(Typeface.DEFAULT_BOLD);
+            scoreMatch.setText("REPORTÉ");
+        } else {
+            scoreMatch.setTypeface(Typeface.DEFAULT);
+            if (match.getScoreDom() != null){
                 scoreMatch.setText(match.getScoreDom()+ " - " + match.getScoreExt());
-            }
-            if (match.getStatut().equals("IN_PLAY") || match.getStatut().equals("PAUSED")){
-                scoreMatch.setTextColor(ContextCompat.getColor(getContext(), R.color.colorAccent));
+                if (match.getStatut().equals("IN_PLAY") || match.getStatut().equals("PAUSED")){
+                    scoreMatch.setTextColor(ContextCompat.getColor(getContext(), R.color.colorAccent));
+                } else {
+                    scoreMatch.setTextColor(ContextCompat.getColor(getContext(), R.color.colorNoir));
+                }
             } else {
+                scoreMatch.setTextSize(12);
+                scoreMatch.setText(this.dateFormatHHmm.format(match.getDateMatch()));
                 scoreMatch.setTextColor(ContextCompat.getColor(getContext(), R.color.colorNoir));
             }
-        } else {
-            scoreMatch.setTextSize(12);
-            scoreMatch.setText(this.dateFormatHHmm.format(match.getDateMatch()));
-            scoreMatch.setTextColor(ContextCompat.getColor(getContext(), R.color.colorNoir));
         }
-        nomEquipeExt.setText(match.getNomExt());
 
         return convertView;
     }

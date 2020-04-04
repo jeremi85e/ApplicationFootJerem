@@ -2,7 +2,7 @@ package com.example.applicationfootjerem.Models;
 
 import java.util.Date;
 
-public class Match {
+public class Match implements Comparable<Match> {
     private Date dateMatch;
     private String statut;;
     private String pays;
@@ -85,5 +85,13 @@ public class Match {
 
     public void setNomExt(String nomExt) {
         this.nomExt = nomExt;
+    }
+
+    @Override
+    public int compareTo(Match m) {
+        if (this.getPays().compareTo(m.getPays()) == 0) {
+            return this.getCompetition().compareTo(m.getCompetition());
+        }
+        return this.getPays().compareTo(m.getPays());
     }
 }
