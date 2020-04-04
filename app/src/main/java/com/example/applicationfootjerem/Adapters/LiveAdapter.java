@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -48,14 +49,19 @@ public class LiveAdapter extends ArrayAdapter<Match> {
 
         Match match = matchsListe.get(position);
 
-        nomCompetitionLiveItem.setText(match.getPays() + " - " + match.getCompetition());
+        if (position != 0 && match.getCompetition().equals(matchsListe.get(position - 1).getCompetition())){
+            nomCompetitionLiveItem.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 0));
+        } else {
+            nomCompetitionLiveItem.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+            nomCompetitionLiveItem.setText(match.getPays() + " - " + match.getCompetition());
+        }
         nomEquipeDom.setText(match.getNomDom());
         nomEquipeExt.setText(match.getNomExt());
         scoreMatch.setTextSize(16);
 
         if (match.getStatut().equals("POSTPONED")){
             scoreMatch.setTypeface(Typeface.DEFAULT_BOLD);
-            scoreMatch.setText("REPORTÉ");
+            scoreMatch.setText("REP");
         } else {
             scoreMatch.setTypeface(Typeface.DEFAULT);
             if (match.getScoreDom() != null){
