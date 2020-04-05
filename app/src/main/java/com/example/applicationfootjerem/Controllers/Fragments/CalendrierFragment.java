@@ -11,9 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -44,8 +44,8 @@ import java.util.Map;
 public class CalendrierFragment extends Fragment{
 
     private static final String TAG = "CalendrierFragment";
-    private TextView journeePrecedente;
-    private TextView journeeSuivante;
+    private ImageButton journeePrecedente;
+    private ImageButton journeeSuivante;
     private ArrayList<String> listeJournees;
     private ListView listViewResultats;
     private Spinner spinnerJournees;
@@ -75,8 +75,8 @@ public class CalendrierFragment extends Fragment{
 
         listViewResultats = (ListView) result.findViewById(R.id.calendrierListeView);
         spinnerJournees = (Spinner) result.findViewById(R.id.spinnerJournees);
-        journeePrecedente = (TextView) result.findViewById(R.id.calendrierJourneePrecedente);
-        journeeSuivante = (TextView) result.findViewById(R.id.calendrierJourneeSuivante);
+        journeePrecedente = (ImageButton) result.findViewById(R.id.calendrierJourneePrecedente);
+        journeeSuivante = (ImageButton) result.findViewById(R.id.calendrierJourneeSuivante);
 
         journeeActuelle = getArguments().getInt("currentMatchDay");
         listeJournees = getArguments().getStringArrayList("listeJournees");
