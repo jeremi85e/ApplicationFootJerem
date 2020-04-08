@@ -35,6 +35,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -152,6 +153,7 @@ public class CalendrierFragment extends Fragment{
                                 match.getJSONObject("awayTeam").getString("name")
                         ));
                     }
+                    Collections.sort(listeMatchs);
                     CalendrierAdapter calendrierAdapter = new CalendrierAdapter(getContext(), listeMatchs);
                     listViewResultats.setAdapter(calendrierAdapter);
 
