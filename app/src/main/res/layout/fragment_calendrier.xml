@@ -21,8 +21,9 @@
         <ImageButton
             android:id="@+id/calendrierJourneePrecedente"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
+            android:background="@color/colorTransparent"
             app:srcCompat="@drawable/fleche_gauche"/>
 
         <Spinner
@@ -35,8 +36,9 @@
         <ImageButton
             android:id="@+id/calendrierJourneeSuivante"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
+            android:background="@color/colorTransparent"
             app:srcCompat="@drawable/fleche_droite"/>
     </LinearLayout>
 
