@@ -82,13 +82,15 @@ public class CalendrierFragment extends Fragment{
         journeeActuelle = getArguments().getInt("currentMatchDay");
         listeJournees = getArguments().getStringArrayList("listeJournees");
 
+        journeeActuelle -= 1;
+
         String[] items = new String[listeJournees.size()];
         for (int i = 0; i < listeJournees.size(); i++) {
             items[i] = getJourneeSpinner(listeJournees.get(i));
         }
         ArrayAdapter<String> adapterJournees = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, items);
         spinnerJournees.setAdapter(adapterJournees);
-        spinnerJournees.setSelection(journeeActuelle - 1);
+        spinnerJournees.setSelection(journeeActuelle);
 
 
         getCalendrier(journeeActuelle);
